@@ -13,17 +13,20 @@ public:
   std::string leftKey;
   std::string rightKey;
   std::string shootKey;
+  int displacementAmount;
   TransformComponent *transform;
   SpriteComponent *sprite;
 
   KeyboardControlComponent(){}
 
-  KeyboardControlComponent(std::string upKey, std::string rightKey, std::string downKey, std::string leftKey){
+  KeyboardControlComponent(std::string upKey, std::string rightKey, std::string downKey, std::string leftKey, std::string shootKey){
     this->upKey = GetSDLKeyStringCode(upKey);
     this->rightKey = GetSDLKeyStringCode(rightKey);
     this->downKey = GetSDLKeyStringCode(downKey);
     this->leftKey = GetSDLKeyStringCode(leftKey);
     this->shootKey = GetSDLKeyStringCode(shootKey);
+
+    displacementAmount = 100;
   }
 
   std::string GetSDLKeyStringCode(std::string key){
@@ -43,8 +46,58 @@ public:
   }
 
   void Update(float deltaTime) override {
+    if(Game::event.type == SDL_KEYDOWN){
+      std::string keyCode = std::to_string(Game::event.key.keysym.sym);
 
+      if (keyCode.compare(upKey) == 0){
+        transform->velocity.y = -displacementAmount;
+        transform->velocity.x = 0;
+        sprite->Play("UpAnimation");
+      }
+      if (keyCode.compare(rightKey) == 0){
+        transform->velocity.y = 0;
+        transform->velocity.x = displacementAmount;
+        sprite->Play("RightAnimation");
+      }
+      if (keyCode.compare(leftKey) == 0){
+        transform->velocity.y = 0;
+        transform->velocity.x = -displacementAmount;
+        sprite->Play("LeftAnimation");
+      }
+      if (keyCode.compare(downKey) == 0){
+        transform->velocity.y = displacementAmount;
+        transform->velocity.x = 0;
+        sprite->Play("DownAnimation");
+      }
+      if (keyCode.compare(shootKey) == 0){
+        // TODO....shoot projectile
+      }
+    }
+
+    if (Game::event.type == SDL_KEYUP){
+      std::string keyCode = std::to_string(Game::event.key.keysym.sym);
+
+      if (keyCode.compare(upKey) == 0){
+        transform->velocity.y = 0;
+      }
+      if (keyCode.compare(rightKey) == 0){
+        transform->velocity.x = 0;
+      }
+      if (keyCode.compare(leftKey) == 0){
+        transform->velocity.x = 0;
+      }
+      if (keyCode.compare(downKey) == 0){
+        transform->velocity.y = 0;
+      }
+    }
   }
+
+
+
+
+
+
+
 
 private:
 };

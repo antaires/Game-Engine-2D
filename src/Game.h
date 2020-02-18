@@ -21,6 +21,7 @@ class Game {
     bool IsRunning() const; // can be const, because funct does not change anything
     static SDL_Renderer *renderer;
     static AssetManager* assetManager;
+    static SDL_Event event;
     void LoadLevel(int levelNumber);
     void Initialize(int width, int height);
     void ProcessInput();
