@@ -26,7 +26,7 @@ public:
     this->leftKey = GetSDLKeyStringCode(leftKey);
     this->shootKey = GetSDLKeyStringCode(shootKey);
 
-    displacementAmount = 100;
+    displacementAmount = 150;
   }
 
   std::string GetSDLKeyStringCode(std::string key){
