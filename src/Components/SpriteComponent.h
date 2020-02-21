@@ -42,7 +42,7 @@ class SpriteComponent: public Component {
               Animation downAnimation = Animation(0, numFrames, animationSpeed);
               Animation rightAnimation = Animation(1, numFrames, animationSpeed);
               Animation leftAnimation = Animation(2, numFrames, animationSpeed);
-              Animation upAnimation = Animation(4, numFrames, animationSpeed);
+              Animation upAnimation = Animation(3, numFrames, animationSpeed);
 
               // add animations to map
               animations.emplace("DownAnimation", downAnimation);
