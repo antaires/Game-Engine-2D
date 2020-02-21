@@ -16,9 +16,6 @@ class TransformComponent: public Component {
     int height;
     int scale;
 
-    int windowWidth;
-    int windowHeight;
-
     TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s){
       position = glm::vec2(posX, posY);
       velocity = glm::vec2(velX, velY);
