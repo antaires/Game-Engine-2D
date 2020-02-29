@@ -33,12 +33,10 @@ std::vector<Entity*> EntityManager::GetEntities() const {
 }
 
 unsigned int EntityManager::GetEntityCount() {
-  // this is correct, but throws an error!
   return entities.size();
 }
 
 
-// TODO these functions were HW and ListAllComponents
 void EntityManager::ListAllEntities() const{
   unsigned int i = 0;
   for (Entity* e : entities) {

@@ -7,6 +7,9 @@
 #include "./Entity.h"
 #include "./Component.h"
 #include "./EntityManager.h"
+#include "./Constants.h"
+#include <iostream>
+
 
 class AssetManager;
 
@@ -14,11 +17,12 @@ class Game {
   private:
     bool isRunning;
     SDL_Window *window; // pointer to window position
+
   public:
-    Game(); // game constructor
-    ~Game(); // game destructor
+    Game();
+    ~Game();
     int ticksLastFrame;
-    bool IsRunning() const; // can be const, because funct does not change anything
+    bool IsRunning() const; 
     static SDL_Renderer *renderer;
     static AssetManager* assetManager;
     static SDL_Event event;
