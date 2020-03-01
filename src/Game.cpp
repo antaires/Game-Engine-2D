@@ -12,6 +12,7 @@ EntityManager manager;
 AssetManager* Game::assetManager = new AssetManager(&manager);
 SDL_Renderer* Game::renderer;
 SDL_Event Game::event;
+SDL_Rect Game::camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 Map* map;
 
 Game::Game() {
@@ -56,6 +57,8 @@ void Game::Initialize(int width, int height){
   return;
 }
 
+Entity& player(manager.AddEntity("chopper", PLAYER_LAYER));
+
 void Game::LoadLevel(int levelNumber){
   // add entities and add components to the entities
   assetManager->AddTexture("tank-image", std::string("./assets/images/tank-big-right.png").c_str()); // not animated
@@ -67,10 +70,9 @@ void Game::LoadLevel(int levelNumber){
   map->LoadMap("./assets/tilemaps/jungle.map", 25, 20); // get character map of level design
 
   // PLAYER
-  Entity& chopperEntity(manager.AddEntity("chopper", PLAYER_LAYER));
-  chopperEntity.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
-  chopperEntity.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false); // name, number of columns = number of frames, speed
-  chopperEntity.AddComponent<KeyboardControlComponent>("up", "right","down","left", "space");
+  player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
+  player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false); // name, number of columns = number of frames, speed
+  player.AddComponent<KeyboardControlComponent>("up", "right","down","left", "space");
 
   // start including entities and also components to them
   // TEST static tank image
@@ -83,7 +85,7 @@ void Game::LoadLevel(int levelNumber){
   radarEntity.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
 
   // TEST
-  manager.ListAllEntities();
+  // manager.ListAllEntities();
 }
 
 void Game::ProcessInput(){
@@ -120,6 +122,7 @@ void Game::Update(){
   // use delta time to update my game objects
   manager.Update(deltaTime);
 
+  Game::HandleCameraMovement();
 }
 
 void Game::Render(){
@@ -134,6 +137,19 @@ void Game::Render(){
   SDL_RenderPresent(renderer); // swap buffers and render
 }
 
+void Game::HandleCameraMovement() {
+    // follow player
+    TransformComponent* mainPlayerTransform = player.GetComponent<TransformComponent>();
+
+    camera.x = mainPlayerTransform->position.x - (WINDOW_WIDTH / 2);
+    camera.y = mainPlayerTransform->position.y - (WINDOW_HEIGHT / 2);
+
+    // clamp camera
+    camera.x = camera.x < 0 ? 0 : camera.x;
+    camera.y = camera.y < 0 ? 0 : camera.y;
+    camera.x = camera.x > camera.w ? camera.w : camera.x;
+    camera.y = camera.y > camera.h ? camera.h : camera.y;
+}
 void Game::Destroy(){
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
