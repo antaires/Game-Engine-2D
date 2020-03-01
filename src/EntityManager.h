@@ -3,6 +3,7 @@
 
 #include "./Entity.h"
 #include "./Component.h"
+#include "./Constants.h"
 #include <vector>
 #include <string>
 
@@ -16,8 +17,9 @@ class EntityManager {
     void Render();
     bool HasNoEntities();
     void ListAllEntities() const; // prints entities + components to console
-    Entity& AddEntity(std::string entityName);
+    Entity& AddEntity(std::string entityName, LayerType layer);
     std::vector<Entity*> GetEntities() const;
+    std::vector<Entity*> GetEntitiesByLayer(LayerType layer) const;
     unsigned int GetEntityCount();
 };
 
