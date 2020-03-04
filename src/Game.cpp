@@ -121,8 +121,8 @@ void Game::Update(){
 
   // use delta time to update my game objects
   manager.Update(deltaTime);
-
   Game::HandleCameraMovement();
+  Game::CheckCollisions();
 }
 
 void Game::Render(){
@@ -149,11 +149,17 @@ void Game::HandleCameraMovement() {
     camera.y = camera.y < 0 ? 0 : camera.y;
     camera.x = camera.x > camera.w ? camera.w : camera.x;
     camera.y = camera.y > camera.h ? camera.h : camera.y;
-
-    // TEST
-    std::cout<<"\ncamera: ("<<camera.x<<", "<<camera.y<<")   "<<"w:"<<camera.w<<" h:"<<camera.h;
-
 }
+
+void Game::CheckCollisions(){
+  // get tag of entity that collides with player
+  std::string collisionTagType = manager.CheckEntityCollisions(player);
+  if (collisionTagType.compare("enemy")){
+    // TODO: deal with enemey collision
+    isRunning = false;
+  }
+}
+
 void Game::Destroy(){
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

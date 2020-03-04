@@ -49,6 +49,11 @@ class Entity {
     }
 
     template<typename T>
+    bool HasComponent() const {
+      return componentTypeMap.count(&typeid(T));
+    }
+
+    template<typename T>
     bool HasComponent(){
       // TODO can this func be const ?
       if (componentTypeMap[&typeid(T)]){

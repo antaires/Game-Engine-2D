@@ -59,3 +59,7 @@ void EntityManager::ListAllEntities() const{
     i++;
   }
 }
+
+std::string EntityManager::CheckEntityCollisions(Entity& entity) const {
+  // TODO::
+}
